@@ -1,0 +1,12 @@
+{
+  "name": "Spreadsheet-to-Calendar",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mattdanielmurphy/Spreadsheet-to-Calendar.git",
+  "author": "Matthew Daniel Murphy <matt@mattmurphy.ca>",
+  "license": "MIT",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "xlsx": "^0.14.1"
+  }
+}
