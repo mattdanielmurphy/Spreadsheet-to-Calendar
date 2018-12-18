@@ -1,58 +1,145 @@
-XLSX = require('xlsx')
-fs = require('fs')
+const XLSX = require('xlsx')
 
-function readSheet(sheet) {
-const rows = []
+let inspect = require('util').inspect
+let fs = require('fs')
+let base64 = require('base64-stream')
+let Imap = require('imap')
 
-let mattRow
-
-let dateStr = sheet['B1'].v
-// dateStr = getDateFromString()
-console.log(dateStr)
-// Get month and first number
-
-let [ month, dayRange ] = dateStr
-dayRange = dayRange.split('-')
-
-const colToDay = {
-C: { name: 'Monday' },
-D: { name: 'Tuesday' },
-E: { name: 'Wednesday' },
-F: { name: 'Thursday' },
-G: { name: 'Friday' },
-H: { name: 'Saturday' },
-I: { name: 'Sunday' }
-}
-
-Object.values(colToDay).forEach((day, i) => {
-day.date = dateStr
-// day.date = i + parseInt(dayRange[0])
+let imap = new Imap({
+  user: 'matt@mattmurphy.ca',
+  password: 'we%Hu6TFs3;F{n)GB6Hr9yAt8EQg2X)nw2Gz{CV4^%o&NbWh4vcWaYdiF^PxQ6WK',
+  host: 'imap.zoho.com',
+  port: 993,
+  tls: true
+  //,debug: (msg){console.log('imap:', msg);=>  }
 })
 
-Object.keys(sheet).forEach((key) => {
-let cell = sheet[key].v
-let col = key.replace(/[0-9]+/, '')
-let row = key.replace(/[A-Z]+/, '')
+const toUpper = x => (x && x.toUpperCase ? x.toUpperCase() : x)
 
-if (cell !== 'x') {
-if (/Matt(\s\(\$\))?/.test(cell)) {
-if (mattRow) throw new Error('More than one Matt exists.')
-mattRow = row
-} else if (row === mattRow) {
-console.log(colToDay[col], cell)
-}
-}
-})
+function findAttachmentParts(struct, attachments) {
+  attachments = attachments || []
+  for (let i = 0, len = struct.length, r; i < len; ++i) {
+    if (Array.isArray(struct[i])) {
+      findAttachmentParts(struct[i], attachments)
+    } else if (
+      struct[i].disposition &&
+      ['INLINE', 'ATTACHMENT'].indexOf(toUpper(struct[i].disposition.type)) > -1
+    )
+      attachments.push(struct[i])
+  }
+  return attachments
 }
 
-let sheets
+function saveFile(stream, filename, encoding, prefix) {
+    if (/\.xlsx$/.test(filename)) {
+        console.log('writing...')
+        filename = `${attachmentsDir}/${filename}`
+        let writeStream = fs.createWriteStream(filename)
 
-fs.readdir(`${__dirname}/attachments`, (err, files) => {
-if (err) throw new Error(err)
-if (files.length < 1) console.log('No files to read!')
-files = files.filter((v) => v !== '.DS_Store')
-files.forEach((fileName) => {
-sheet = XLSX.readFile(`${__dirname}/attachments/${fileName}`).Sheets.Sheet1
-readSheet(sheet)
-})
-})
+        writeStream.on('finish', () => {
+        console.log(prefix + 'Done writing to file %s', filename)
+        })
+
+        if (toUpper(encoding) === 'BASE64') {
+        base64.decode(writeStream)
+        stream.pipe(base64.decode()).pipe(writeStream)
+        } else {
+        stream.pipe(writeStream)
+        }
+    }
+}
+
+function buildAttMessageFunction(attachment) {
+  let filename = attachment.params.name
+  let encoding = attachment.encoding
+
+  return (msg, seqno) => {
+    let prefix = '(#' + seqno + ') '
+    msg.on('body', (stream, info) => {
+      // only save if spreadsheet
+      console.log('going to save')
+      saveFile(stream, filename, encoding, prefix)
+    })
+    msg.once('end', () => {
+      console.log(prefix + 'Finished attachment %s', filename)
+    })
+  }
+}
+
+function getSanagansMessages() {
+  imap.search([['FROM', 'info@sanagansmeatlocker.com'], ['SUBJECT', 'Schedule']], (err, results) => {
+    if (err) throw err
+
+    let fetch = imap.fetch(results, {
+      bodies: ['HEADER.FIELDS (FROM TO SUBJECT DATE)'],
+      struct: true
+    })
+    fetch.on('message', (msg, seqno) => {
+      let prefix = '(#' + seqno + ') '
+      msg.on('body', (stream, info) => {
+        let buffer = ''
+        stream.on('data', chunk => {
+          buffer += chunk.toString('utf8')
+        })
+        stream.once('end', () => {
+          let header = Imap.parseHeader(buffer)
+          Object.keys(header).forEach(key => {
+          })
+        })
+      })
+      msg.once('attributes', attrs => {
+        let attachments = findAttachmentParts(attrs.struct)
+        for (let i = 0, len = attachments.length; i < len; ++i) {
+          let attachment = attachments[i]
+          let fetch = imap.fetch(attrs.uid, {
+            //do not use imap.seq.fetch here
+            bodies: [attachment.partID],
+            struct: true
+          })
+          //build function to process attachment message
+          fetch.on('message', buildAttMessageFunction(attachment))
+        }
+      })
+      msg.once('end', () => {
+      })
+    })
+    fetch.once('error', err => {
+      console.log('Fetch error: ' + err)
+    })
+    fetch.once('end', () => {
+      console.log('Done fetching all messages!')
+      imap.end()
+    })
+  })
+}
+
+function openMailbox(mailboxName, cb) {
+  imap.openBox(mailboxName, true, cb)
+}
+
+function getSpreadsheets() {
+  imap.once('ready', () => {
+    openMailbox('Inbox', (err, box) => {
+      if (err) throw err
+      getSanagansMessages()
+    })
+    openMailbox('Archive', (err, box) => {
+      if (err) throw err
+      getSanagansMessages()
+    })
+  })
+
+  imap.once('error', err => {
+    console.log(err)
+  })
+
+  imap.once('end', () => {
+    console.log('Connection ended')
+  })
+
+  imap.connect()
+}
+
+let attachmentsDir = './attachments'
+
+module.exports = getSpreadsheets()

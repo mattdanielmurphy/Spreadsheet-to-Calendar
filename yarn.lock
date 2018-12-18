@@ -10,6 +10,11 @@ adler-32@~1.2.0:
     exit-on-epipe "~1.0.1"
     printj "~1.1.0"
 
+base64-stream@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/base64-stream/-/base64-stream-1.0.0.tgz#157ae00bc7888695e884e1fcc51c551fdfa8a1fa"
+  integrity sha512-BQQZftaO48FcE1Kof9CmXMFaAdqkcNorgc8CxesZv9nMbbTF1EFyQe89UOuh//QMmdtfUDXyO8rgUalemL5ODA==
+
 cfb@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/cfb/-/cfb-1.1.0.tgz#44fb1b30eee014fa5633a0ed5f26c87fd765799a"
@@ -43,6 +48,11 @@ commander@~2.17.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
 
+core-util-is@~1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
+  integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
+
 crc-32@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/crc-32/-/crc-32-1.2.0.tgz#cb2db6e29b88508e32d9dd0ec1693e7b41a18208"
@@ -50,6 +60,61 @@ crc-32@~1.2.0:
   dependencies:
     exit-on-epipe "~1.0.1"
     printj "~1.1.0"
+
+emailjs-addressparser@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/emailjs-addressparser/-/emailjs-addressparser-2.0.2.tgz#fa8e6ff989667da8ae41d7316a7dfe6abe3c9d51"
+  integrity sha512-E6ztFf1ePtZEwqfN3aWsvZNcpBeDqgJbVL4D32dckHkcwdhJ1bhlE4MLvHBf/IoXQmJBgkKlwGP5/5l11EE5OQ==
+
+emailjs-base64@^1.1.2, emailjs-base64@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/emailjs-base64/-/emailjs-base64-1.1.4.tgz#392fa38cb6aa35dccd3af3637ffc14c1c7ce9612"
+  integrity sha512-4h0xp1jgVTnIQBHxSJWXWanNnmuc5o+k4aHEpcLXSToN8asjB5qbXAexs7+PEsUKcEyBteNYsSvXUndYT2CGGA==
+
+emailjs-imap-client@^3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/emailjs-imap-client/-/emailjs-imap-client-3.0.7.tgz#d76f1e7279c8d0d519d82fde1f5e3dc06b1a2a95"
+  integrity sha512-iBgoo+l/Dt86qFfaKlvlvNBAL4cKywvuNXzsu0RWK9eozETE3Okfhm3wDX9KPpdViM4uBE/roaM2PfibrtlQtA==
+  dependencies:
+    emailjs-addressparser "^2.0.2"
+    emailjs-base64 "^1.1.2"
+    emailjs-imap-handler "^3.0.2"
+    emailjs-mime-codec "^2.0.7"
+    emailjs-tcp-socket "^2.0.0"
+    emailjs-utf7 "^4.0.1"
+    pako "^1.0.6"
+    ramda "^0.25.0"
+
+emailjs-imap-handler@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/emailjs-imap-handler/-/emailjs-imap-handler-3.0.2.tgz#ab4e6d58ffa46b1cc0f20e14ca8b093b69cda136"
+  integrity sha512-hngAGSBVyWYjX8iEWv7rB5xvxR4h+7FCU4HUATTvqE9ALOaeEQ+j9ul9qwR9voR7EUJDzkafu3FFa72A0gnJpg==
+  dependencies:
+    ramda "^0.25.0"
+
+emailjs-mime-codec@^2.0.7:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/emailjs-mime-codec/-/emailjs-mime-codec-2.0.8.tgz#d5abc191902c560ee56359e0d1d9b090471f3a3f"
+  integrity sha512-Upnk1zSj6wVrKRBdfc0di2eyjyTOatTs8QlZZlBedfGBWalZ6IlEaPbmoCL5Qt4VVTwLp7buYcw0+pu9sB744g==
+  dependencies:
+    emailjs-base64 "^1.1.4"
+    ramda "^0.25.0"
+    text-encoding "^0.6.4"
+
+emailjs-tcp-socket@^2.0.0:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/emailjs-tcp-socket/-/emailjs-tcp-socket-2.0.2.tgz#e89be8d331b5ab5dddca47428e5f64c1ac5154f4"
+  integrity sha512-ro2G1WS7UQwFNpjrWRK6awjsBjG00Y4AxSEvuG1YUORzIqnzdOUVmaHnptZ8UFDPYglsu8O4nm6+luflmTy3Qg==
+  dependencies:
+    node-forge "^0.7.5"
+    ramda "^0.25.0"
+
+emailjs-utf7@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/emailjs-utf7/-/emailjs-utf7-4.0.1.tgz#ca6bad6b409605d11b4108d8785c70e42644f4b9"
+  integrity sha512-bvBpXUEr3alogZjqwVasCKSjfzxleQ1TeO9NBtG4FvS2nfQDvzSW2gqEU0VcZJ6hD/xGl5j0kZiGegPHvgVyww==
+  dependencies:
+    emailjs-base64 "^1.1.2"
 
 exit-on-epipe@~1.0.1:
   version "1.0.1"
@@ -66,10 +131,58 @@ fs@^0.0.1-security:
   resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
   integrity sha1-invTcYa23d84E/I4WLV+yq9eQdQ=
 
+imap@^0.8.19:
+  version "0.8.19"
+  resolved "https://registry.yarnpkg.com/imap/-/imap-0.8.19.tgz#3678873934ab09cea6ba48741f284da2af59d8d5"
+  integrity sha1-NniHOTSrCc6mukh0HyhNoq9Z2NU=
+  dependencies:
+    readable-stream "1.1.x"
+    utf7 ">=1.0.2"
+
+inherits@2.0.3, inherits@~2.0.1:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
+  integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
+
+isarray@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
+  integrity sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=
+
+node-forge@^0.7.5:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.6.tgz#fdf3b418aee1f94f0ef642cd63486c77ca9724ac"
+  integrity sha512-sol30LUpz1jQFBjOKwbjxijiE3b6pjd74YwfD0fJOKPjF+fONKb2Yg8rYgS6+bK6VDl+/wfr4IYpC7jDzLUIfw==
+
+pako@^1.0.6:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.7.tgz#2473439021b57f1516c82f58be7275ad8ef1bb27"
+  integrity sha512-3HNK5tW4x8o5mO8RuHZp3Ydw9icZXx0RANAOMzlMzx7LVXhMJ4mo3MOBpzyd7r/+RUu8BmndP47LXT+vzjtWcQ==
+
 printj@~1.1.0, printj@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/printj/-/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
   integrity sha512-zA2SmoLaxZyArQTOPj5LXecR+RagfPSU5Kw1qP+jkWeNlrq+eJZyY2oS68SU1Z/7/myXM4lo9716laOFAVStCQ==
+
+ramda@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
+  integrity sha512-GXpfrYVPwx3K7RQ6aYT8KPS8XViSXUVJT1ONhoKPE9VAleW42YE+U+8VEyGWt41EnEQW7gwecYJriTI0pKoecQ==
+
+readable-stream@1.1.x:
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
+  integrity sha1-fPTFTvZI44EwhMY23SB54WbAgdk=
+  dependencies:
+    core-util-is "~1.0.0"
+    inherits "~2.0.1"
+    isarray "0.0.1"
+    string_decoder "~0.10.x"
+
+semver@~5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
+  integrity sha1-myzl094C0XxgEq0yaqa00M9U+U8=
 
 ssf@~0.10.2:
   version "0.10.2"
@@ -77,6 +190,30 @@ ssf@~0.10.2:
   integrity sha512-rDhAPm9WyIsY8eZEKyE8Qsotb3j/wBdvMWBUsOhJdfhKGLfQidRjiBUV0y/MkyCLiXQ38FG6LWW/VYUtqlIDZQ==
   dependencies:
     frac "~1.1.2"
+
+string_decoder@~0.10.x:
+  version "0.10.31"
+  resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-0.10.31.tgz#62e203bc41766c6c28c9fc84301dab1c5310fa94"
+  integrity sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ=
+
+text-encoding@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.6.4.tgz#e399a982257a276dae428bb92845cb71bdc26d19"
+  integrity sha1-45mpgiV6J22uQou5KEXLcb3CbRk=
+
+utf7@>=1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/utf7/-/utf7-1.0.2.tgz#955f490aae653ba220b9456a0a8776c199360991"
+  integrity sha1-lV9JCq5lO6IguUVqCod2wZk2CZE=
+  dependencies:
+    semver "~5.3.0"
+
+util@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/util/-/util-0.11.1.tgz#3236733720ec64bb27f6e26f421aaa2e1b588d61"
+  integrity sha512-HShAsny+zS2TZfaXxD9tYj4HQGlBezXZMZuM/S5PKLLoZkShZiGk9o5CzukI1LVHZvjdvZ2Sj1aW/Ndn2NB/HQ==
+  dependencies:
+    inherits "2.0.3"
 
 xlsx@^0.14.1:
   version "0.14.1"
